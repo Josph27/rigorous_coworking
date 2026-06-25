@@ -1,0 +1,18 @@
+{
+  "name": "pi-rigorous-coworking",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "keywords": ["pi-package", "pi-extension"],
+  "pi": {
+    "extensions": ["./src/index.ts"]
+  },
+  "dependencies": {
+    "typebox": "^0.32.0"
+  },
+  "devDependencies": {
+    "@earendil-works/pi-coding-agent": "latest",
+    "@earendil-works/pi-tui": "latest",
+    "typescript": "^5.5.0"
+  }
+}
