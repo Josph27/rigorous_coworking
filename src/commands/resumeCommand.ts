@@ -101,7 +101,7 @@ async function handleResumeCommand(
       },
       { triggerTurn: false }
     );
-    pi.sendUserMessage(buildOmbudsmanPrompt(state.assignmentText), {
+    pi.sendUserMessage(buildOmbudsmanPrompt(state.assignmentText, state.activeTask!), {
       deliverAs: "followUp",
       triggerTurn: true,
     });

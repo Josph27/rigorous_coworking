@@ -1,20 +1,15 @@
 import type { ExtensionContext } from "@earendil-works/pi-coding-agent";
 
-/**
- * Construct the Ombudsman analysis prompt.
- */
 export function buildOmbudsmanPrompt(
   assignmentText: string,
+  taskName: string,
   gapRoundHistory: Array<{ description: string; answer: string }> = []
 ): string {
   const historyBlock =
     gapRoundHistory.length > 0
       ? `\nPRIOR ROUNDS:\n` +
         gapRoundHistory
-          .map(
-            (h, i) =>
-              `  R${i + 1}: ${h.description} → answer: ${h.answer}`
-          )
+          .map((h, i) => `  R${i + 1}: ${h.description} → answer: ${h.answer}`)
           .join("\n") +
         `\n\nDEDUP: re-flag ONLY if the answer did not resolve the gap. If re-flagging, state why it was insufficient.\n`
       : `\nDEDUP: never flag the same concern twice in one response; merge overlapping gaps.\n`;
@@ -23,6 +18,9 @@ export function buildOmbudsmanPrompt(
 
 Find EVERY gap, ambiguity, missing detail, or derailment path in this assignment.
 Flag anything the agent could plausibly misunderstand, shortcut, or skip verifying.
+
+ENVIRONMENT: VFS-locked design mode. Read-only bash (ls, cat, git log, grep, find, etc.)
+allowed for codebase exploration. Write ONLY to .agent/plans/${taskName}/extra/ for temp files.
 
 Categories:
   missing_steps          — vague/incomplete steps, missing preconditions
@@ -40,23 +38,20 @@ RULES:
 
 ORDERING (CRITICAL):
   Sort gaps by relevance to the user. Visual, output, and UX concerns first.
-  Technical implementation questions last. The user cares about what they SEE
-  and GET before how it's BUILT.
+  Technical implementation questions last.
 
 STYLE (CRITICAL):
-  - descriptions: information-dense, clipped. No filler words. No grammatical padding.
-    Wrong: "The assignment does not specify which 3D rendering library should be used
-    for implementing the rotating cube animation, which creates ambiguity."
+  - descriptions: information-dense, clipped. No filler. No grammatical padding.
+    Wrong: "The assignment does not specify which 3D rendering library should be used"
     Right: "No 3D library specified (Three.js? WebGL? canvas?)"
-  - questions: direct, single-line. "Which library?" not "Could you please specify
-    which library you would prefer to use for this task?"
+  - questions: direct, single-line. "Which library?"
   - Max ~140 chars per description, ~80 chars per question. Be terse.
 
 ${historyBlock}
 PROCEDURE:
   1. Analyze the assignment.
   2. Identify gaps across all five categories.
-  3. Sort: visual/output/UX concerns → technical implementation last.
+  3. Sort: visual/output/UX → technical implementation last.
   4. Write terse description + direct question for each.
   5. Call submit_gap_analysis tool.
   6. No raw text output — use the tool.
@@ -69,8 +64,6 @@ ${assignmentText}
 
 Call submit_gap_analysis now.`;
 }
-
-// ── Editor template (compact flat format) ──
 
 const CAT_LABEL: Record<string, string> = {
   missing_steps: "missing_steps",

@@ -125,7 +125,7 @@ async function handleOmbudsmanResponse(
     pi.sendUserMessage(
       `[SYSTEM: Ombudsman — RETRY]\n\n` +
         `You MUST call submit_gap_analysis. No raw text.\n\n` +
-        buildOmbudsmanPrompt(state.assignmentText, state.gapRoundHistory),
+        buildOmbudsmanPrompt(state.assignmentText, state.activeTask!, state.gapRoundHistory),
       { deliverAs: "followUp", triggerTurn: true }
     );
     return;
@@ -232,7 +232,7 @@ async function handleOmbudsmanResponse(
     // Always re-send to LLM for re-analysis (confirm moved to next round's entry)
     state.phase = "ombudsman_analyzing";
     pi.sendUserMessage(
-      buildOmbudsmanPrompt(updatedAssignment, state.gapRoundHistory),
+      buildOmbudsmanPrompt(updatedAssignment, state.activeTask!, state.gapRoundHistory),
       { deliverAs: "followUp", triggerTurn: true }
     );
   } else {

@@ -110,6 +110,7 @@ async function handleTaskCommand(
 
   const plansDir = path.join(ctx.cwd, ".agent", "plans", safeTaskName);
   await fs.mkdir(plansDir, { recursive: true });
+  await fs.mkdir(path.join(plansDir, "extra"), { recursive: true });
 
   const modeLabel =
     mode === 0 ? "Stepwise" : mode === 1 ? "Semi-auto" : mode === 2 ? "Continuous" : "Silent";
@@ -135,7 +136,7 @@ async function handleTaskCommand(
   ctx.ui.notify(`Ombudsman analyzing assignment for gaps...`, "info");
 
   // ── Send Ombudsman analysis prompt ──
-  pi.sendUserMessage(buildOmbudsmanPrompt(assignmentContent), {
+  pi.sendUserMessage(buildOmbudsmanPrompt(assignmentContent, safeTaskName), {
     deliverAs: "followUp",
     triggerTurn: true,
   });

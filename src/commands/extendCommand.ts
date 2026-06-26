@@ -70,7 +70,7 @@ export function registerExtendCommand(pi: ExtensionAPI): void {
       // to APPEND new steps, not replace. Store a flag for the orchestrator.
       state._extendMode = true;
 
-      pi.sendUserMessage(buildOmbudsmanPrompt(extensionAssignment), {
+      pi.sendUserMessage(buildOmbudsmanPrompt(extensionAssignment, state.activeTask!), {
         deliverAs: "followUp",
         triggerTurn: true,
       });
