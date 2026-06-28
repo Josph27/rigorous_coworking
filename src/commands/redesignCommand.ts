@@ -1,8 +1,8 @@
-import type { ExtensionAPI, ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { getState } from "../state.js";
 import { lockWorkspace } from "../vfs/lockManager.js";
-import { loadPlanGraph, savePlanGraph } from "../tools/plannerTools.js";
 import { formatPlanSummary } from "../ui/summaryRenderer.js";
+import { loadPlanGraph } from "../tools/plannerTools.js";
 
 export function registerRedesignCommand(pi: ExtensionAPI): void {
   pi.registerCommand("task-redesign", {

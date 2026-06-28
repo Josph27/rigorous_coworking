@@ -1,9 +1,8 @@
-import type { ExtensionAPI, ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { getState } from "../state.js";
 import { lockWorkspace } from "../vfs/lockManager.js";
 import { loadPlanGraph } from "../tools/plannerTools.js";
 import { buildOmbudsmanPrompt } from "../ombudsman/ombudsman.js";
-import { formatPlanSummary } from "../ui/summaryRenderer.js";
 
 export function registerExtendCommand(pi: ExtensionAPI): void {
   pi.registerCommand("task-extend", {

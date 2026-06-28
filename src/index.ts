@@ -65,6 +65,7 @@ export default function rigorousCoworkingExtension(pi: ExtensionAPI): void {
   setupOrchestrator(pi);
 
   // ── 5. Session Lifecycle ──
+
   pi.on("session_start", async (_event, ctx) => {
     if (ctx.hasUI) {
       ctx.ui.notify(

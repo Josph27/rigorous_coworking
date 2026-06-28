@@ -135,7 +135,6 @@ async function handleResumeCommand(
 
       const nextIdx = plan.steps.findIndex((s) => !s.is_completed);
       state.currentStepIndex = nextIdx >= 0 ? nextIdx : plan.steps.length;
-      const completed = plan.steps.filter((s) => s.is_completed).length;
 
       if (state.currentStepIndex >= plan.steps.length) {
         plan.status = "finished";

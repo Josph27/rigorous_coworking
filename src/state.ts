@@ -60,6 +60,10 @@ export interface ExtensionState {
   _spinnerFrame: number;
   /** Internal: set when /task-extend is active — Plan Designer should append, not replace. */
   _extendMode: boolean;
+  _apiErrors: number;
+  _lastAssistantTexts: string[];
+  _consecutiveLoops: number;
+  _consecutiveFailures: number;
 }
 
 const state: ExtensionState = {
@@ -80,6 +84,10 @@ const state: ExtensionState = {
   stopPoints: [],
   _spinnerFrame: 0,
   _extendMode: false,
+  _apiErrors: 0,
+  _lastAssistantTexts: [],
+  _consecutiveLoops: 0,
+  _consecutiveFailures: 0,
 };
 
 /** Resolvers for the greenlight gate promise (mode 1 stepwise). */
